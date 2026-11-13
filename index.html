@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Intercambio de regalos</title>
+<meta name="description" content="Elige tu nombre e ingresa tu código personal para ver a quién te toca en el intercambio de regalos.">
+<meta property="og:title" content="Intercambio de regalos">
+<meta property="og:description" content="Elige tu nombre e ingresa tu código personal para ver a quién te toca.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#18202f;--muted:#667085;--line:#e4e8ef;--brand:#1f3a5f;--brand2:#2d5a8c;--accent:#c8553d;--ok:#2e7d5b;--danger:#b42318}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+.top{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:36px 20px 64px;text-align:center}
+.top .icon{width:52px;height:52px;margin:0 auto 12px;border-radius:14px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center}
+.top h1{font-size:1.5rem;font-weight:650;margin:0 0 6px;letter-spacing:-.01em}
+.top p{margin:0 auto;max-width:360px;opacity:.85;font-size:.95rem}
+.wrap{max-width:440px;margin:-40px auto 0;padding:0 16px 48px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 8px 24px rgba(16,24,40,.08)}
+.steps{display:flex;gap:8px;margin:0 0 20px;font-size:.8rem;color:var(--muted);justify-content:center}
+.steps span{display:inline-flex;align-items:center;gap:6px}
+.steps b{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;align-items:center;justify-content:center;font-size:.72rem}
+.field{margin-bottom:16px}
+label{display:block;font-size:.85rem;font-weight:600;margin:0 0 6px;color:#344054}
+select,input{width:100%;padding:12px 14px;border:1px solid #cfd6e0;border-radius:10px;font:inherit;font-size:1rem;background:#fff;color:var(--ink);appearance:auto}
+input{text-transform:uppercase;letter-spacing:.14em;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:600}
+select:focus,input:focus{outline:3px solid rgba(45,90,140,.25);border-color:var(--brand)}
+button{width:100%;padding:13px;border:0;border-radius:10px;background:var(--brand);color:#fff;font:inherit;font-size:1rem;font-weight:600;cursor:pointer}
+button:hover{background:var(--brand2)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.err{color:var(--danger);font-size:.9rem;margin:12px 0 0;min-height:1.3em;text-align:center}
+.hint{color:var(--muted);font-size:.8rem;margin:6px 0 0}
+.result{display:none;text-align:center;padding:12px 0 4px}
+.result .badge{display:inline-block;background:#e7f4ee;color:var(--ok);font-size:.8rem;font-weight:600;padding:4px 10px;border-radius:999px;margin-bottom:14px}
+.result .lbl{color:var(--muted);font-size:.95rem;margin:0}
+.result .val{font-size:1.9rem;font-weight:700;color:var(--ink);margin:6px 0 18px;letter-spacing:-.01em}
+.again{background:#fff;color:var(--ink);border:1px solid #cfd6e0}
+.again:hover{background:#f7f9fc}
+.note{color:var(--muted);font-size:.8rem;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="icon" aria-hidden="true">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+  </div>
+  <h1>Intercambio de regalos</h1>
+  <p>Elige tu nombre e ingresa tu código personal para ver a quién te toca.</p>
+</header>
+
+<main class="wrap">
+  <div class="card">
+    <div id="formView">
+      <div class="steps"><span><b>1</b>Tu nombre</span><span>·</span><span><b>2</b>Tu código</span></div>
+      <div class="field">
+        <label for="who">Tu nombre</label>
+        <select id="who"></select>
+      </div>
+      <div class="field">
+        <label for="code">Tu código personal</label>
+        <input id="code" maxlength="8" autocomplete="off" spellcheck="false" placeholder="········">
+        <p class="hint">8 caracteres, sin acentos. Te lo envió quien organiza el intercambio.</p>
+      </div>
+      <button id="go">Ver mi resultado</button>
+      <p class="err" id="err"></p>
+    </div>
+
+    <div class="result" id="resultView">
+      <span class="badge">Sorteo listo</span>
+      <p class="lbl">Te toca regalarle a</p>
+      <p class="val" id="val"></p>
+      <button class="again" id="again">Terminar</button>
+    </div>
+  </div>
+
+  <p class="note">Tu resultado solo se muestra con tu código. No lo compartas con nadie.</p>
+</main>
+
+<script>
+const DATA = {"iter": 310000, "entries": [{"n": "DEYVI", "s": "QDYJXlXT4XJ2MG/XH9DazA==", "i": "b35bjvmb8uFJwBcp", "c": "aVwWeAfgJKEvE9hXOIvvQjLlkA=="}, {"n": "ANALILIA", "s": "Y37yI7im6mZp3/D7yTcyhw==", "i": "lNzPxM6farb+3WOR", "c": "jxtgMjNOMISpLZk57UnD/BVK4iWw"}, {"n": "ELENA", "s": "fl6v9CwbE4jR6DU1oCqffw==", "i": "06d5kWHLTa6vECdt", "c": "NRQ1zMfftUxgKujMOo7wMLDKa+La"}, {"n": "MATEO", "s": "1qvEsJWrNjcmjLAjaoUfHA==", "i": "GwAo8y1XoVpOYrTb", "c": "EYVapWAdy1qXkEJ/3ijn0+4TDTPP"}, {"n": "EDUARDO", "s": "sjC/A1x0QiUVu9OGksHcXQ==", "i": "rJKEik2Izak4oc9h", "c": "i8GEBbR7In9PAX+lhnQIdz9Qze4="}, {"n": "JUANITO", "s": "RQcEuAt0d9euaBVBzsvprQ==", "i": "TZuq1LH3ozS9500b", "c": "xPtwtCWvV5mXK79BOdNpduLMgsv5dTch"}, {"n": "PANDA", "s": "4UZSczFDf60wNFhv9rrtvQ==", "i": "ksBl3C6Vj4MRTSPc", "c": "BPss9aQIq8KVFfWWX3tuExghfb6H1tg="}, {"n": "ALMA", "s": "pLm2i59wN/jLEqOFJbkPTg==", "i": "jDcGXMPRIH1lvmVS", "c": "sK/oN9NVqsYcN6VBE6aoeObb3bOi+Q=="}, {"n": "ZOE", "s": "kG/8RfhooTLvHX5pmo0mfA==", "i": "6DL9D+QdalQWNaRr", "c": "L/f414Ws6XhUzY8MPjbi/HeDg8N3"}, {"n": "LUCERO", "s": "te2CdfJYh7iMjnYODIH8dQ==", "i": "4PVb7bBblAOAU5rF", "c": "kJD6Q5TsqCze3x+MIg/JjO6DxZDdig=="}, {"n": "ANGEL", "s": "u/bvlhwYH8KpOTmCpI8XWQ==", "i": "fEDuQlP3ipZA0JCQ", "c": "Nf9vrLYbQNBG2jS+frjOfzY4xEU="}, {"n": "LIA", "s": "OG7m/JL5s/rQxFTKCy9W8Q==", "i": "T+biH36IeqclFrGv", "c": "bbGvRWo4ZbfbnubL9F2mAjo+mA=="}, {"n": "JUAN", "s": "+RFyrgbGcWeyRDdWEnjdeA==", "i": "mDiqC75q/iR2vtOp", "c": "PVQA19fMaV563K/56CvxHrRibxmf7pQ="}, {"n": "LUPITA", "s": "zGhwPqtCKrMcH5NJSIM7iA==", "i": "7oTC3bexhd5ajkqk", "c": "APJzLi9Y3pHRSBKz8PsTYRUNmh5i"}]};
+const $ = id => document.getElementById(id);
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const enc = new TextEncoder();
+
+$('who').innerHTML = DATA.entries.map(e => e.n).sort((a,b)=>a.localeCompare(b,'es'))
+  .map(n => `<option>${n}</option>`).join('');
+
+async function decryptFor(name, code){
+  const e = DATA.entries.find(x => x.n === name);
+  const base = await crypto.subtle.importKey('raw', enc.encode(code), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt: b64(e.s), iterations: DATA.iter, hash:'SHA-256'},
+    base, {name:'AES-GCM', length:256}, false, ['decrypt']);
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv: b64(e.i)}, key, b64(e.c));
+  return new TextDecoder().decode(pt);
+}
+
+$('go').addEventListener('click', async () => {
+  const name = $('who').value;
+  const code = $('code').value.trim().toUpperCase();
+  $('err').textContent = '';
+  if (code.length !== 8){ $('err').textContent = 'El código debe tener 8 caracteres.'; return; }
+  $('go').disabled = true;
+  try{
+    $('val').textContent = await decryptFor(name, code);
+    $('formView').style.display = 'none';
+    $('resultView').style.display = 'block';
+  } catch(err){
+    $('err').textContent = 'Código incorrecto para ' + name + '. Revísalo e intenta de nuevo.';
+  } finally {
+    $('go').disabled = false;
+  }
+});
+
+$('again').addEventListener('click', () => {
+  $('resultView').style.display = 'none';
+  $('formView').style.display = 'block';
+  $('code').value = '';
+  $('val').textContent = '';
+});
+
+$('code').addEventListener('keydown', e => { if (e.key === 'Enter') $('go').click(); });
+</script>
+</body>
+</html>
